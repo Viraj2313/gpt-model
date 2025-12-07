@@ -12,22 +12,12 @@ from src.model.gpt import GPTLM
 
 
 class Generator:
-    """Text generation interface."""
-    
     def __init__(
         self,
         model: GPTLM,
         tokenizer: Tokenizer,
         device: str = None
     ):
-        """
-        Initialize generator.
-        
-        Args:
-            model: Trained GPT model
-            tokenizer: BPE tokenizer
-            device: Device to run on
-        """
         self.model = model
         self.tokenizer = tokenizer
         
@@ -55,18 +45,7 @@ class Generator:
         temperature: float = 0.8,
         top_k: int = 50
     ) -> str:
-        """
-        Generate text from a prompt.
-        
-        Args:
-            prompt: Starting text
-            max_new_tokens: Number of tokens to generate
-            temperature: Sampling temperature
-            top_k: Top-k filtering
-            
-        Returns:
-            Generated text
-        """
+     
         if not prompt:
             bos_id = self.tokenizer.token_to_id("<bos>")
             if bos_id is None:
@@ -83,7 +62,6 @@ class Generator:
                 top_k=top_k
             )
         
-        # Decode
         generated_text = self.decode(output[0].tolist())
         
         return generated_text
@@ -96,19 +74,7 @@ class Generator:
         temperature: float = 0.8,
         top_k: int = 50
     ) -> tuple:
-        """
-        Single chat turn.
-        
-        Args:
-            history: Conversation history
-            user_message: User's message
-            max_new_tokens: Max tokens to generate
-            temperature: Sampling temperature
-            top_k: Top-k filtering
-            
-        Returns:
-            Tuple of (assistant_reply, updated_history)
-        """
+   
         history += f"User: {user_message}\nAssistant:"
         
         full_text = self.generate(
@@ -136,17 +102,7 @@ def load_model_for_inference(
     tokenizer_path: str = "bpe_tokenizer.json",
     device: str = None
 ) -> Generator:
-    """
-    Load trained model for inference.
-    
-    Args:
-        checkpoint_path: Path to model checkpoint
-        tokenizer_path: Path to tokenizer
-        device: Device to load on
-        
-    Returns:
-        Generator instance
-    """
+  
     if device is None:
         device = "cuda" if torch.cuda.is_available() else "cpu"
     
@@ -188,7 +144,6 @@ def load_model_for_inference(
 
 
 def interactive_chat():
-    """Run interactive chat session."""
     print("Loading model...")
     generator = load_model_for_inference()
     
@@ -214,7 +169,6 @@ def interactive_chat():
 
 
 def simple_generation():
-    """Simple text generation example."""
     print("Loading model...")
     generator = load_model_for_inference()
     

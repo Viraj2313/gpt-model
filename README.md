@@ -2,7 +2,7 @@
 
 I have always been fascinated by how GPT models work, how they generate text, how attention operates, and how the underlying architecture comes together. One day, I decided to build my own GPT-style language model from scratch. That began a long cycle of reading research papers, studying the _Attention Is All You Need_ paper, understanding the Transformer architecture, and strengthening my fundamentals.
 
-This project is the result of that journey. I implemented a GPT-like model with roughly **60 million parameters**, trained it using **PyTorch** on Kaggle GPUs over several days. The model was trained on **WikiText** and **DailyDialog** datasets.
+This project is the result of that journey. I implemented a GPT-like model with roughly **100 million parameters**, trained it using **PyTorch** on Kaggle GPUs over several days. The model was trained on **Cosmopedia** and **smoltalk** and a bit of **wikitext** datasets.
 
 ---
 

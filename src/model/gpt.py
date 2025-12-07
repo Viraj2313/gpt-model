@@ -165,33 +165,31 @@ class GPTLM(nn.Module):
         return logits_flat, loss
 
     @torch.no_grad()
-    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None):
-        """
-        idx: (B, T) initial context
-        returns: (B, T + max_new_tokens)
-        """
+    def generate(self, idx, max_new_tokens, temperature=1.0, top_k=None, stop_token_ids=None):
         for _ in range(max_new_tokens):
-            # crop to block_size if needed
             if idx.size(1) > self.block_size:
                 idx_cond = idx[:, -self.block_size:]
             else:
                 idx_cond = idx
-
-            # forward to get logits for current context
-            logits = self(idx_cond)             # (B, T_cond, vocab)
-            logits = logits[:, -1, :]           # (B, vocab) — only last time step
-
-            # temperature
+            
+            logits = self(idx_cond)
+            logits = logits[:, -1, :]
+            
             if temperature != 1.0:
                 logits = logits / temperature
-
-            # top-k filtering
+            
             if top_k is not None:
                 v, _ = torch.topk(logits, min(top_k, logits.size(-1)))
                 min_topk = v[:, -1].unsqueeze(-1)
                 logits = torch.where(logits < min_topk, torch.full_like(logits, -1e10), logits)
-
-            probs = F.softmax(logits, dim=-1)   # (B, vocab)
-            next_token = torch.multinomial(probs, num_samples=1)  # (B, 1)
+            
+            probs = F.softmax(logits, dim=-1)
+            next_token = torch.multinomial(probs, num_samples=1)
+            
+            # Check for stop tokens
+            if stop_token_ids and next_token.item() in stop_token_ids:
+                break
+                
             idx = torch.cat((idx, next_token), dim=1)
+        
         return idx
