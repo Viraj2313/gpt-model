@@ -1,8 +1,8 @@
 # My Own GPT Model
 
-I have always been fascinated by how GPT models work, how they generate text, how attention operates, and how the underlying architecture comes together. One day, I decided to build my own GPT-style language model from scratch. That began a long cycle of reading research papers, studying the _Attention Is All You Need_ paper, understanding the Transformer architecture, and strengthening my fundamentals.
+I have always been fascinated by how GPT models work, how they generate text, how attention operates, and how the underlying architecture comes together. One day, I decided to build my own GPT-style language model from scratch. That began a long cycle of reading research papers, studying the "Attention Is All You Need" paper, understanding the Transformer architecture, and strengthening my fundamentals.
 
-This project is the result of that journey. I implemented a GPT-like model with roughly **100 million parameters**, trained it using **PyTorch** on Kaggle GPUs over several days. The model was trained on **Cosmopedia** and **smoltalk** and a bit of **wikitext** datasets.
+This project is the result of that journey. I implemented a GPT-like model with roughly 100 million parameters, trained it using PyTorch on Kaggle GPUs over several days. The model was trained on Cosmopedia, smoltalk, and a bit of the wikitext datasets.
 
 ---
 
@@ -34,11 +34,16 @@ gpt-model/
 │   │
 │   └── __init__.py
 │
+├── web-interface/
+│   (contains assets and logic required for web-based user interface)
+│
 ├── chat.py
 ├── train.py
 ├── requirements.txt
 └── README.md
 ```
+
+The `web-interface/` folder is included to support a browser-based or local web UI for interacting with the trained model. It is part of the project and necessary for applications requiring a visual or web-driven chat interface.
 
 ---
 
@@ -94,6 +99,7 @@ notebooks/training.ipynb
 
 - Custom Byte Pair Encoding (BPE) tokenizer
 - GPT-style Transformer architecture built from scratch using PyTorch
-- Modular project structure for research and extension
-- Training and inference scripts included
+- Modular research-friendly project structure
+- Training and inference utilities included
 - Fully reproducible pipeline
+- Optional web interface included in `web-interface/` for interactive usage

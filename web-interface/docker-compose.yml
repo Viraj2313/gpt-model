@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  techmodelapi:
+    image: viraj231/techmodelapi:latest
+    container_name: techmodelapi
+    restart: always
+    ports:
+      - "8006:8000"
+
+  techmodelfrontend:
+    image: viraj231/techmodelfrontend:latest
+    container_name: techmodelfrontend
+    restart: always
+    ports:
+      - "8007:80"

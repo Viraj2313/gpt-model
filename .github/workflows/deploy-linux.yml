@@ -1,0 +1,63 @@
+name: CI/CD Pipeline
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup docker buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Log in to docker hub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Build and push backend image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./web-interface/backend
+          file: ./web-interface/backend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: viraj231/techmodelapi:latest
+
+      - name: Build and push frontend image
+        uses: docker/build-push-action@v2
+        with:
+          context: ./web-interface/frontend
+          file: ./web-interface/frontend/Dockerfile
+          platforms: linux/amd64
+          push: true
+          tags: viraj231/techmodelfrontend:latest
+
+      - name: Setup SSH key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.VM_SSH_PRIVATE_KEY }}
+
+      - name: Add VM to known hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.VM_IP }} >> ~/.ssh/known_hosts
+
+      - name: Upload docker-compose to VM
+        run: |
+          scp web-interface/docker-compose.yml ubuntu@${{ secrets.VM_IP }}:/home/ubuntu/techmodel/docker-compose.yml
+
+      - name: Deploy
+        run: |
+          ssh ubuntu@${{ secrets.VM_IP }} <<EOF
+          cd /home/ubuntu/techmodel
+          docker compose pull
+          docker compose down
+          docker compose up -d
+          EOF
