@@ -2,3 +2,6 @@ torch
 datasets
 tokenizers
 numpy
+fastapi
+tokenizers
+pydantic
