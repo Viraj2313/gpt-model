@@ -63,6 +63,6 @@ def stream_generate(user_input):
             
             idx = torch.cat((idx, idx_next), dim=1)
 
-@app.post("/generate-stream")
+@app.post("/api/generate-stream")
 def generate_stream(req: Prompt):
     return StreamingResponse(stream_generate(req.prompt), media_type="text/plain")
