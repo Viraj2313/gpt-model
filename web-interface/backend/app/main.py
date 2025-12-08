@@ -30,7 +30,7 @@ model = GPTLM(
     dropout=0.2
 ).to(device)
 
-state = torch.load("tech_model_final.pth", map_location=device, weights_only=True)
+state = torch.load("tech_model_final.pth", map_location=device)
 model.load_state_dict(state)
 model.eval()
 
