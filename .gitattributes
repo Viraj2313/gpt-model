@@ -1,1 +1,2 @@
+web-interface/backend/*.pth filter=lfs diff=lfs merge=lfs -text
 web-interface/backend/tech_model_final.pth filter=lfs diff=lfs merge=lfs -text
