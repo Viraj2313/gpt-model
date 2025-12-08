@@ -26,7 +26,7 @@ jobs:
         with:
           context: ./web-interface/backend
           file: ./web-interface/backend/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/arm64
           push: true
           tags: viraj231/techmodelapi:latest
 
@@ -35,7 +35,7 @@ jobs:
         with:
           context: ./web-interface/frontend
           file: ./web-interface/frontend/Dockerfile
-          platforms: linux/amd64
+          platforms: linux/arm64
           push: true
           tags: viraj231/techmodelfrontend:latest
 
