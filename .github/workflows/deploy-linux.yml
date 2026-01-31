@@ -51,8 +51,8 @@ jobs:
 
       - name: Upload docker-compose and nginx to VM
         run: |
-          scp web-interface/docker-compose.yml ubuntu@${{ secrets.VM_IP }}:/home/ubuntu/techmodel/docker-compose.yml
-          scp web-interface/nginx.conf ubuntu@${{ secrets.VM_IP }}:/home/ubuntu/techmodel/nginx.conf
+          scp ./docker-compose.yml ubuntu@${{ secrets.VM_IP }}:/home/ubuntu/techmodel/docker-compose.yml
+          scp ./nginx.conf ubuntu@${{ secrets.VM_IP }}:/home/ubuntu/techmodel/nginx.conf
 
       - name: Deploy
         run: |
